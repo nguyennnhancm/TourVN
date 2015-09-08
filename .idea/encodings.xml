@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/contact/entities/ContactMech.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/contact/entities/ContactMechPurposeType.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/contact/entities/ContactMechType.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/contact/entities/ContactMechTypePurpose.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/contact/entities/ContactMechTypePurposePK.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/contact/entities/PostalAddress.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/core/entities/role/RoleType.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/core/entities/status/StatusItem.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/geo/entities/Geo.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/geo/entities/GeoAssoc.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/geo/entities/GeoAssocPK.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/geo/entities/GeoType.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/party/entities/Party.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/party/entities/PartyContactMech.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/party/entities/PartyContactMechPK.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/party/entities/PartyContactMechPurpose.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/party/entities/PartyContactMechPurposePK.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/party/entities/PartyGroup.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/party/entities/PartyRelationship.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/party/entities/PartyRole.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/party/entities/PartyRolePK.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/party/entities/PartyType.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/sequence/entities/SequenceValueItem.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/user/entities/Person.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/user/entities/UserLogin.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/core/utils/encode/UTF8CharacterEncoding.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/order/entities/OrderHeader.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/order/entities/OrderItem.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/ProdCatalog.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/ProdCatalogCategory.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/ProdCatalogCategoryPK.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/ProdCatalogRole.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/ProdCatalogRolePK.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/Product.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/ProductCategory.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/ProductContent.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/ProductContentPK.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/ProductPrice.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/ProductReview.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/ProductRole.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Core/src/tourvn/product/entities/ProductRolePK.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/PortalManager/portal.war/WEB-INF/jboss-deployment-structure.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/PortalManager/portal.war/css/font-awesome.min.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/PortalManager/portal.war/css/jquery-ui.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/PortalManager/portal.war/js/jquery-ui.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/PortalManager/portal.war/js/uploadImages.js" charset="UTF-8" />
+  </component>
+</project>
+

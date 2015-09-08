@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" build-on-make="true" name="TourVn Exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/TourVN.ear</output-path>
+    <root id="root">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/Config/Compile/Core/META-INF/application.xml" />
+        <element id="file-copy" path="$PROJECT_DIR$/Config/Compile/Core/META-INF/jboss-deployment-structure.xml" />
+      </element>
+      <element id="artifact" artifact-name="Core" />
+      <element id="archive" name="HibernatePersistence.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/Config/Compile/Core/META-INF/persistence.xml" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

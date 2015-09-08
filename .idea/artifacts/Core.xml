@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="ejb-jar" build-on-make="true" name="Core">
+    <output-path>$PROJECT_DIR$/out/artifacts/Core</output-path>
+    <root id="archive" name="Core.jar">
+      <element id="module-output" name="Core" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/Config/Compile/Core/META-INF/persistence.xml" />
+      </element>
+    </root>
+  </artifact>
+</component>

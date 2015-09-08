@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Config/Config.iml" filepath="$PROJECT_DIR$/Config/Config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Core/Core.iml" filepath="$PROJECT_DIR$/Core/Core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PortalManager/PortalManager.iml" filepath="$PROJECT_DIR$/PortalManager/PortalManager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TourVNManager/TourVNManager.iml" filepath="$PROJECT_DIR$/TourVNManager/TourVNManager.iml" />
+    </modules>
+  </component>
+</project>
+

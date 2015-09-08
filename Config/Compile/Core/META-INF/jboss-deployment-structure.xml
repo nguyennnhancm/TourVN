@@ -1,0 +1,20 @@
+<jboss-deployment-structure>
+    <!-- Make sub deployments isolated by default, so they cannot see each others classes without a Class-Path entry -->
+    <ear-subdeployments-isolated>false</ear-subdeployments-isolated>
+    <!-- This corresponds to the top level deployment. For a war this is the war's module, for an ear -->
+    <!-- This is the top level ear module, which contains all the classes in the EAR's lib folder     -->
+    <deployment>
+
+        <dependencies>
+            <module name="javax.api" export="true"/>
+            <module name="org.apache.log4j" export="true"/>
+            <module name="org.slf4j" export="true"/>
+            <module name="org.dom4j" export="true"/>
+            <module name="org.springframework.spring" slot="snowdrop" export="true"/>
+            <module name="org.apache.commons.logging" export="true"/>
+            <module name="org.apache.commons.beanutils" export="true"/>
+
+        </dependencies>
+    </deployment>
+
+</jboss-deployment-structure>

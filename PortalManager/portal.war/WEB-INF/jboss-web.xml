@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+    <security-domain flushOnSessionInvalidation="true" >other</security-domain>
+    <disable-cross-context>false</disable-cross-context>
+    <valve>
+        <class-name>org.apache.catalina.authenticator.SingleSignOn</class-name>
+    </valve>
+    <context-root>/</context-root>
+</jboss-web>
