@@ -14,7 +14,9 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface ISupplierController {
-    public UserProfile createSupplier(String partyVendor, UserProfile userProfile);
+    public UserProfile createSupplier(String partyVendor, UserProfile userProfile, OrgProfile orgProfile);
 
     public List<OrgProfile> getAllSupplierByVendor(String partyId);
+
+    public OrgProfile getOrgProfileById(String partyId);
 }

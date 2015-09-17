@@ -1,10 +1,10 @@
 package tourvn.core.supplier.impl;
 
+import tourvn.core.contact.enums.AddressPurpose;
+import tourvn.core.contact.enums.EmailPurpose;
 import tourvn.core.contact.enums.TelecomPurpose;
-import tourvn.core.party.entities.Party;
-import tourvn.core.party.entities.PartyGroup;
-import tourvn.core.party.entities.PartyRelationship;
-import tourvn.core.party.entities.PartyRole;
+import tourvn.core.contact.model.ContactProfile;
+import tourvn.core.party.entities.*;
 import tourvn.core.party.enums.RoleTypeEnum;
 import tourvn.core.supplier.ISupplierController;
 import tourvn.core.user.entities.UserLogin;
@@ -30,34 +30,40 @@ import java.util.logging.Logger;
 @Stateless(name = "SupplierController")
 public class SupplierController extends BaseController implements ISupplierController {
     private Logger logger = Logger.getLogger(getClass().getName());
+
     @Override
-    public UserProfile createSupplier(String partyVendor, UserProfile userProfile) {
+    public UserProfile createSupplier(String partyVendor, UserProfile userProfile, OrgProfile orgProfile) {
         //tạo party
         String partyId = getSequenceValue().getSequenceValueItem(Party.class);
-        Party party = new Party();
-        party.setPartyId(partyId);
-        party.setPartyTypeId("PARTY_GROUP");
-        party.setCreatedDate(new Timestamp(new Date().getTime()));
-        getPartyManager().save(party);
+        orgProfile.getParty().setPartyId(partyId);
+        orgProfile.getParty().setPartyTypeId("PARTY_GROUP");
+        orgProfile.getParty().setCreatedDate(new Timestamp(new Date().getTime()));
+        getPartyManager().save(orgProfile.getParty());
         //lưu party group
-        PartyGroup partyGroup = new PartyGroup();
-        partyGroup.setPartyId(partyId);
-        partyGroup.setGroupName(userProfile.getOrgProfile().getPartyGroup().getGroupName());
-        getPartyManager().save(partyGroup);
+        orgProfile.getPartyGroup().setPartyId(partyId);
+        getPartyManager().save(orgProfile.getPartyGroup());
+        ////Save Rating
+        orgProfile.getPartyAttribute().setPartyId(partyId);
+        getPartyManager().save(orgProfile.getPartyAttribute());
+        // Save images
+            if (orgProfile.getImageList().size() > 0){
+                //Tạo partyContent với type là image
+                //Tạo content
+            }
         //party role
         PartyRole partyRole = new PartyRole();
         partyRole.setPartyId(partyId);
-        partyRole.setRoleTypeId("TOUR_VN_SUPPLIER");
+        partyRole.setRoleTypeId(RoleTypeEnum.TOUR_VN_SUPPLIER.getValue());
         getPartyManager().save(partyRole);
         //contactmech(email, sdt, address)
-            //primary email
-        getContactController().createPrimaryEmail(party, userProfile.getContactProfile().getPrimaryEmail());
-            //primary phone number
-        getContactController().createPrimaryTelephoneNumber(party, userProfile.getContactProfile().getPrimaryPhoneNumber());
-            //primary address
-        getContactController().createPostalAddress(party, userProfile.getContactProfile().getPrimaryPostalAddress());
-            //other phone number
-        getContactController().createOtherTelecomNumber(party, userProfile.getContactProfile().getPrimaryPhoneNumber(), TelecomPurpose.OTHER.getPurpose());
+        //primary email
+        getContactController().createPrimaryEmail(orgProfile.getParty(), orgProfile.getContactProfile().getPrimaryEmail());
+        //primary phone number
+        getContactController().createPrimaryTelephoneNumber(orgProfile.getParty(), orgProfile.getContactProfile().getPrimaryPhoneNumber());
+        //primary address
+        getContactController().createPostalAddress(orgProfile.getParty(), orgProfile.getContactProfile().getPrimaryPostalAddress());
+        //other phone number
+        getContactController().createOtherTelecomNumber(orgProfile.getParty(), orgProfile.getContactProfile().getPrimaryPhoneNumber(), TelecomPurpose.OTHER.getPurpose());
 
         //party userlogin
         String partyIdUserLogin = getSequenceValue().getSequenceValueItem(Party.class);
@@ -102,19 +108,40 @@ public class SupplierController extends BaseController implements ISupplierContr
         //get all supplier
         List<PartyRelationship> partyRelationshipList = getPartyManager().getAllSupplier(partyId, RoleTypeEnum.TOUR_VN_COMPANY.getValue(),
                 RoleTypeEnum.TOUR_VN_SUPPLIER.getValue());
-        if (null != partyRelationshipList){
+        if (null != partyRelationshipList) {
             List<OrgProfile> orgProfileList = new ArrayList<OrgProfile>();
-            for (PartyRelationship partyRelationship: partyRelationshipList){
-                OrgProfile orgProfile = new OrgProfile();
-                //partyGroup
-                orgProfile.setPartyGroup(getPartyManager().getPartyGroupById(partyRelationship.getPartyIdTo()));
-                // Contact
-               orgProfileList.add(orgProfile);
+            for (PartyRelationship partyRelationship : partyRelationshipList) {
+                orgProfileList.add(getOrgProfileById(partyRelationship.getPartyIdTo()));
             }
             return orgProfileList;
         }
         logger.warning(SupplierController.class + partyId + " find not supplier!!!!!!!!!");
         return new ArrayList<OrgProfile>();
+    }
+
+    public OrgProfile getOrgProfileById(String partyId) {
+        OrgProfile orgProfile = new OrgProfile();
+        //partyGroup
+        orgProfile.setPartyGroup(getPartyManager().getPartyGroupById(partyId));
+        // Contact
+        ContactProfile contactProfile = new ContactProfile();
+        for (PartyContactMechPurpose partyContactMechPurpose : getPartyManager().getAllPartyContactmechPurpose(partyId)) {
+            //get email
+            if (partyContactMechPurpose.getContactMechPurposeTypeId().equals(EmailPurpose.PRIMARY.getPurpose())) {
+                contactProfile.setPrimaryEmail(getContactManager().getContactmech(partyContactMechPurpose.getContactMechId()));
+            } else if (partyContactMechPurpose.getContactMechPurposeTypeId().equals(TelecomPurpose.PRIMARY.getPurpose())){
+            //get phone
+                contactProfile.setPrimaryPhoneNumber(getContactManager().getTeleComNumber(partyContactMechPurpose.getContactMechId()));
+            }else if (partyContactMechPurpose.getContactMechPurposeTypeId().equals(TelecomPurpose.OTHER.getPurpose())){
+                // get other phone
+                contactProfile.setOtherPhoneNumber(getContactManager().getTeleComNumber(partyContactMechPurpose.getContactMechId()));
+            }else if (partyContactMechPurpose.getContactMechPurposeTypeId().equals(AddressPurpose.PRIMARY.getPurpose())){
+                // get address
+                contactProfile.setPrimaryPostalAddress(getContactManager().getPostalAddress(partyContactMechPurpose.getContactMechId()));
+            }
+        }
+        orgProfile.setContactProfile(contactProfile);
+        return orgProfile;
     }
 
 }

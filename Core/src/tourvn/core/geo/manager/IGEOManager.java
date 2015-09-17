@@ -1,6 +1,7 @@
 package tourvn.core.geo.manager;
 
 import tourvn.core.geo.entities.Geo;
+import tourvn.core.geo.entities.GeoAssoc;
 
 import java.util.List;
 
@@ -16,4 +17,8 @@ public interface IGEOManager {
     public Geo getGeoById(String geoId);
 
     public List<Geo> getGeoByAssoc(String parentGeoId, String assocTypeId);
+
+    public Geo saveGEO(Geo geo);
+
+    public GeoAssoc saveGeoAssoc(GeoAssoc geoAssoc);
 }

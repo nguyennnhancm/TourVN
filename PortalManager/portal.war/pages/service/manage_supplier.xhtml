@@ -225,27 +225,11 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        Địa chỉ
-                                    </td>
-                                    <td colspan="3">
-                                        <p:inputText size="30" value="#{CreateSupplier.primaryPostalAddress.address1}"
-                                                     id="txtSupplierAddress"
-                                                >
-                                            <p:ajax async="true"/>
-                                        </p:inputText>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td>Tỉnh/Thành phố:</td>
                                     <td><p:selectOneMenu id="provinceList"
                                                          value="#{CreateSupplier.primaryPostalAddress.stateProvinceGeoId}"
-                                                         style="width: 175px;">
-                                        <p:ajax listener="#{CreateSupplier.processValueChange}" update="districtList" />
+                                                         style="width: 200px;">
+                                        <p:ajax listener="#{CreateSupplier.processValueChange}" update="districtList wardList" />
                                         <f:selectItem itemLabel="Chọn Tỉnh/Thành Phố" itemValue=""/>
                                         <f:selectItems value="#{CreateSupplier.provinceList}" var="province"
                                                        itemLabel="#{province.geoName}"
@@ -253,14 +237,38 @@
                                     </p:selectOneMenu>
                                     </td>
                                     <td align="right">Quận/Huyện:</td>
-                                    <td><p:selectOneMenu id="districtList" style="width:130px;"
+                                    <td><p:selectOneMenu id="districtList" style="width: 200px;"
                                                          value="#{CreateSupplier.primaryPostalAddress.countyGeoId}">
-                                        <f:selectItem itemLabel="Chọn Quận" itemValue=""/>
+                                        <p:ajax listener="#{CreateSupplier.processDistrictValueChange()}" update="wardList" />
+                                        <f:selectItem itemLabel="Chọn Quận/Huyện" itemValue=""/>
                                         <f:selectItems value="#{CreateSupplier.districtList}" var="district"
                                                        itemLabel="#{district.geoName}"
                                                        itemValue="#{district.geoId}"/>
                                     </p:selectOneMenu></td>
                                 </tr>
+                                <tr>
+                                    <td>Phường/Xã:</td>
+                                    <td><p:selectOneMenu id="wardList" style="width:200px;"
+                                                         value="#{CreateSupplier.primaryPostalAddress.directions}">
+                                        <f:selectItem itemLabel="Chọn Phường/Xã" itemValue=""/>
+                                        <f:selectItems value="#{CreateSupplier.wardList}" var="ward"
+                                                       itemLabel="#{ward.geoName}"
+                                                       itemValue="#{ward.geoId}"/>
+                                    </p:selectOneMenu></td>
+                                    <td align="right">
+                                        Địa chỉ
+                                    </td>
+                                    <td>
+                                        <p:inputText size="30" value="#{CreateSupplier.primaryPostalAddress.address1}"
+                                                     id="txtSupplierAddress"
+                                                >
+                                            <p:ajax async="true"/>
+                                        </p:inputText>
+
+                                    </td>
+
+                                </tr>
+
 
                             </table>
                         </p:tab>
@@ -276,10 +284,20 @@
                                         </p:inputText>
                                     </td>
                                     <td align="right">
-
+                                        Đánh giá
                                     </td>
                                     <td>
-
+                                        <p:selectOneMenu id="somCreateSupplierRating"
+                                                         value="#{CreateSupplier.partyAttribute.attrValue}"
+                                                         style="width: 175px;">
+                                            <f:selectItem itemLabel="Chọn" itemValue=""/>
+                                            <f:selectItem itemValue="1" itemLabel="1 sao"/>
+                                            <f:selectItem itemValue="2" itemLabel="2 sao"/>
+                                            <f:selectItem itemValue="3" itemLabel="3 sao"/>
+                                            <f:selectItem itemValue="4" itemLabel="4 sao"/>
+                                            <f:selectItem itemValue="5" itemLabel="5 sao"/>
+                                            <f:selectItem itemValue="0" itemLabel="Khác"/>
+                                        </p:selectOneMenu>
                                     </td>
                                 </tr>
 
@@ -288,7 +306,7 @@
                                         Giới thiệu
                                     </td>
                                     <td>
-                                        <p:editor widgetVar="editorWidget" value="#{CreateSupplier.partyGroup.tickerSymbol}" id="txtDescription">
+                                        <p:editor widgetVar="editorWidget" value="#{CreateSupplier.party.description}" id="txtDescription">
                                         </p:editor>
                                     </td>
                                 </tr>

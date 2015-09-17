@@ -9,4 +9,25 @@
     <module>
         <ejb>HibernatePersistence.jar</ejb>
     </module>
+    <module>
+        <ejb>poi-3.13-beta1-20150723.jar</ejb>
+    </module>
+    <module>
+        <ejb>poi-ooxml-3.13-beta1-20150723.jar</ejb>
+    </module>
+    <module>
+        <ejb>poi-examples-3.13-beta1-20150723.jar</ejb>
+    </module>
+    <module>
+        <ejb>poi-excelant-3.13-beta1-20150723.jar</ejb>
+    </module>
+    <module>
+        <ejb>poi-ooxml-schemas-3.13-beta1-20150723.jar</ejb>
+    </module>
+    <module>
+        <ejb>poi-scratchpad-3.13-beta1-20150723.jar</ejb>
+    </module>
+    <module>
+        <ejb>xmlbeans.jar</ejb>
+    </module>
 </application>

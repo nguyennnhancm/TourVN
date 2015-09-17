@@ -8,8 +8,12 @@ import tourvn.core.contact.entities.ContactMech;
 import tourvn.core.contact.entities.PostalAddress;
 import tourvn.core.contact.entities.TelecomNumber;
 import tourvn.core.geo.entities.Geo;
+import tourvn.core.party.entities.Party;
+import tourvn.core.party.entities.PartyAttribute;
 import tourvn.core.party.entities.PartyGroup;
 import tourvn.core.user.entities.UserLogin;
+import tourvn.core.user.model.Image;
+import tourvn.core.user.model.OrgProfile;
 import tourvn.core.user.model.UserProfile;
 
 import javax.annotation.PostConstruct;
@@ -30,15 +34,20 @@ public class CreateSupplierBean extends BasePortalBean{
 
     private UserProfile userProfile;
     private static Geo provinceGEO;
+    private static Geo districtGEO;
     private static List<Geo> provinceList;
     private static List<Geo> districtList;
+    private static List<Geo> wardList;
     private UserLogin userLogin;
     private PartyGroup partyGroup;
+    private Party party;
+    private PartyAttribute partyAttribute;
     private ContactMech primaryEmail;
     private TelecomNumber primaryPhoneNumber;
     private TelecomNumber otherPhoneNumber;
     private PostalAddress primaryPostalAddress;
     private String rePassword;
+    private List<Image> imageList;
 
     @PostConstruct
     public void init() {
@@ -52,12 +61,16 @@ public class CreateSupplierBean extends BasePortalBean{
         //validate
         getUserProfile().setUserLogin(userLogin);
         userProfile.getUserLogin().setCurrentPassword(getEncoding().SHA1(userLogin.getCurrentPassword()));
-        userProfile.getOrgProfile().setPartyGroup(partyGroup);
-        userProfile.getOrgProfile().getContactProfile().setPrimaryEmail(primaryEmail);
-        userProfile.getOrgProfile().getContactProfile().setPrimaryPhoneNumber(primaryPhoneNumber);
-        userProfile.getOrgProfile().getContactProfile().setPrimaryPostalAddress(primaryPostalAddress);
-        userProfile.getOrgProfile().getContactProfile().setOtherPhoneNumber(otherPhoneNumber);
-        getSupplierController().createSupplier(tourVNId, userProfile);
+        OrgProfile orgProfile = new OrgProfile();
+        orgProfile.setParty(party);
+        orgProfile.setPartyGroup(partyGroup);
+        orgProfile.setPartyAttribute(partyAttribute);
+        orgProfile.getContactProfile().setPrimaryEmail(primaryEmail);
+        orgProfile.getContactProfile().setPrimaryPhoneNumber(primaryPhoneNumber);
+        orgProfile.getContactProfile().setPrimaryPostalAddress(primaryPostalAddress);
+        orgProfile.getContactProfile().setOtherPhoneNumber(otherPhoneNumber);
+        orgProfile.setImageList(imageList);
+        getSupplierController().createSupplier(tourVNId, userProfile, orgProfile);
         //
         RequestContext.getCurrentInstance().execute("PF('addSupplier').hide();");
         return "";
@@ -87,6 +100,16 @@ public class CreateSupplierBean extends BasePortalBean{
             districtList = new ArrayList<Geo>(getGeoController().getGEOByAssoc(provinceGEO.getGeoId(), "REGIONS"));
         } else {
             districtList.removeAll(districtList);
+            wardList.removeAll(wardList);
+        }
+    }
+
+    public void processDistrictValueChange() {
+        districtGEO = getGeoController().getGeoById(getPrimaryPostalAddress().getCountyGeoId());
+        if (null != districtGEO) {
+            wardList = new ArrayList<Geo>(getGeoController().getGEOByAssoc(districtGEO.getGeoId(), "REGIONS"));
+        } else {
+            wardList.removeAll(wardList);
         }
     }
 
@@ -109,6 +132,15 @@ public class CreateSupplierBean extends BasePortalBean{
 
     public void setDistrictList(List<Geo> districtList) {
         this.districtList = districtList;
+    }
+
+    public List<Geo> getWardList() {
+        if (null == wardList) wardList = new ArrayList<Geo>();
+        return wardList;
+    }
+
+    public static void setWardList(List<Geo> wardList) {
+        CreateSupplierBean.wardList = wardList;
     }
 
     public static Geo getProvinceGEO() {
@@ -159,6 +191,35 @@ public class CreateSupplierBean extends BasePortalBean{
         return primaryEmail;
     }
 
+    public static Geo getDistrictGEO() {
+        return districtGEO;
+    }
+
+    public static void setDistrictGEO(Geo districtGEO) {
+        CreateSupplierBean.districtGEO = districtGEO;
+    }
+
+    public Party getParty() {
+        if (null == party) party = new Party();
+        return party;
+    }
+
+    public void setParty(Party party) {
+        this.party = party;
+    }
+
+    public PartyAttribute getPartyAttribute() {
+        if (null == partyAttribute){
+            partyAttribute = new PartyAttribute();
+            partyAttribute.setAttrName("RATING");
+        }
+        return partyAttribute;
+    }
+
+    public void setPartyAttribute(PartyAttribute partyAttribute) {
+        this.partyAttribute = partyAttribute;
+    }
+
     public void setPrimaryEmail(ContactMech primaryEmail) {
         this.primaryEmail = primaryEmail;
     }
@@ -196,5 +257,14 @@ public class CreateSupplierBean extends BasePortalBean{
 
     public void setRePassword(String rePassword) {
         this.rePassword = rePassword;
+    }
+
+    public List<Image> getImageList() {
+        if(null == imageList) imageList = new ArrayList<Image>();
+        return imageList;
+    }
+
+    public void setImageList(List<Image> imageList) {
+        this.imageList = imageList;
     }
 }

@@ -16,7 +16,7 @@ public class UserProfile {
     private Person person;
     private UserLogin userLogin;
     private ContactProfile contactProfile;
-    private OrgProfile orgProfile; // hiện 1 user chỉ cho thuộc 1 org với role org là TOUR_VN_COMPANY , TOUR_VN_SUPPLIER.
+//    private OrgProfile orgProfile; // hiện 1 user chỉ cho thuộc 1 org với role org là TOUR_VN_COMPANY , TOUR_VN_SUPPLIER.
 
     public Person getPerson() {
         if (null == person) person = new Person();
@@ -45,12 +45,12 @@ public class UserProfile {
         this.contactProfile = contactProfile;
     }
 
-    public OrgProfile getOrgProfile() {
-        if (null == orgProfile) orgProfile = new OrgProfile();
-        return orgProfile;
-    }
-
-    public void setOrgProfile(OrgProfile orgProfile) {
-        this.orgProfile = orgProfile;
-    }
+//    public OrgProfile getOrgProfile() {
+//        if (null == orgProfile) orgProfile = new OrgProfile();
+//        return orgProfile;
+//    }
+//
+//    public void setOrgProfile(OrgProfile orgProfile) {
+//        this.orgProfile = orgProfile;
+//    }
 }

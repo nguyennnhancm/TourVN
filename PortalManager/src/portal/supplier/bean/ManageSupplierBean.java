@@ -37,6 +37,7 @@ public class ManageSupplierBean extends BasePortalBean {
         }
     }
 
+
     public void processValueChange() {
         provinceGEO = getGeoController().getGeoById(getPostalAddress().getStateProvinceGeoId());
         if (null != provinceGEO) {

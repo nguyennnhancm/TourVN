@@ -1,49 +1,43 @@
-package tourvn.core.geo.controller.impl;
+package importGEO;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import tourvn.core.geo.controller.IGEOController;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.junit.Test;
 import tourvn.core.geo.entities.Geo;
 import tourvn.core.geo.entities.GeoAssoc;
-import tourvn.core.utils.controller.BaseController;
+import tourvn.core.geo.manager.IGEOManager;
+import tourvn.core.utils.LookupLocator;
 
-import javax.ejb.Stateless;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
  * User: NGUYEN VAN NHAN
- * Date: 8/27/2015
- * Time: 12:09 PM
- * Media Group
+ * Date: 9/11/2015
+ * Time: 3:15 PM
+ * Long Van Soft Solution JSC
  * To change this template use File | Settings | File Templates.
  */
-@Stateless(name = "GEOController")
-public class GEOController extends BaseController implements IGEOController {
-    @Override
-    public Geo getGeoById(String geoId) {
-        return getGeoManager().getGeoById(geoId);
-    }
+public class ImportGEOFromFile {
+    String path = "D:\\temp\\Danh_Sach_Cap_Xa.xls";
 
-    @Override
-    public List<Geo> getGEOByAssoc(String parentId, String assocTypeId) {
-        return getGeoManager().getGeoByAssoc(parentId, assocTypeId);
-    }
+    IGEOManager geoManager = LookupLocator.getGEOManager();
 
+    @Test
     public void importGeo(){
-        String path = "D:\\temp\\Danh_Sach_Cap_Xa.xls";
         try {
-            FileInputStream fileInputStream = new FileInputStream(path);
-            HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
-            HSSFSheet sheet = workbook.getSheet("Sheet1");
+            InputStream inputStream = new FileInputStream(path);
+            Workbook workbook = new HSSFWorkbook(inputStream);
+            Sheet sheet = workbook.getSheetAt(0);
             Iterator<Row> rowIterator = sheet.rowIterator();
 
             Geo geoVN = new Geo();
@@ -52,7 +46,6 @@ public class GEOController extends BaseController implements IGEOController {
             geoVN.setGeoName("Việt Nam");
             geoVN.setGeoCode("VN");
             geoVN.setCreatedStamp(new Timestamp(new Date().getTime()));
-            getGeoManager().saveGEO(geoVN);
             while (rowIterator.hasNext()) {
                 Row row = (Row) rowIterator.next();
                 Cell wardId = row.getCell(0);
@@ -79,15 +72,15 @@ public class GEOController extends BaseController implements IGEOController {
 
                 Geo geoWard = new Geo();
                 geoWard.setGeoId(cellToString(wardId));
-                geoWard.setGeoTypeId("WARD");
+                geoWard.setGeoTypeId("DISTRICT");
                 geoWard.setGeoName(cellToString(wardName));
                 geoWard.setWellKnownText(cellToString(wardLevel));
                 geoWard.setCreatedStamp(new Timestamp(new Date().getTime()));
 
 
-                getGeoManager().saveGEO(geoProvince);
-                getGeoManager().saveGEO(geoDistrict);
-                getGeoManager().saveGEO(geoWard);
+                geoManager.saveGEO(geoProvince);
+                geoManager.saveGEO(geoDistrict);
+                geoManager.saveGEO(geoWard);
                 //
                 GeoAssoc geoAssocPC = new GeoAssoc();
                 geoAssocPC.setGeoId("VN");
@@ -96,23 +89,26 @@ public class GEOController extends BaseController implements IGEOController {
                 geoAssocPC.setCreatedStamp(new Timestamp(new Date().getTime()));
 
                 GeoAssoc geoAssocDP = new GeoAssoc();
-                geoAssocDP.setGeoId(geoProvince.getGeoId());
-                geoAssocDP.setGeoIdTo(geoDistrict.getGeoId());
-                geoAssocDP.setGeoAssocTypeId("REGIONS");
-                geoAssocDP.setCreatedStamp(new Timestamp(new Date().getTime()));
+                geoAssocPC.setGeoId(geoProvince.getGeoId());
+                geoAssocPC.setGeoIdTo(geoDistrict.getGeoId());
+                geoAssocPC.setGeoAssocTypeId("REGIONS");
+                geoAssocPC.setCreatedStamp(new Timestamp(new Date().getTime()));
 
                 GeoAssoc geoAssocWD = new GeoAssoc();
-                geoAssocWD.setGeoId(geoDistrict.getGeoId());
-                geoAssocWD.setGeoIdTo(geoWard.getGeoId());
-                geoAssocWD.setGeoAssocTypeId("REGIONS");
-                geoAssocWD.setCreatedStamp(new Timestamp(new Date().getTime()));
+                geoAssocPC.setGeoId(geoDistrict.getGeoId());
+                geoAssocPC.setGeoIdTo(geoWard.getGeoId());
+                geoAssocPC.setGeoAssocTypeId("REGIONS");
+                geoAssocPC.setCreatedStamp(new Timestamp(new Date().getTime()));
 
 
-                getGeoManager().saveGeoAssoc(geoAssocPC);
-                getGeoManager().saveGeoAssoc(geoAssocDP);
-                getGeoManager().saveGeoAssoc(geoAssocWD);
+                geoManager.saveGeoAssoc(geoAssocPC);
+                geoManager.saveGeoAssoc(geoAssocDP);
+                geoManager.saveGeoAssoc(geoAssocWD);
 
             }
+
+
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -123,7 +119,7 @@ public class GEOController extends BaseController implements IGEOController {
 
     }
 
-    public String cellToString(Cell cell) {
+    public static String cellToString(Cell cell) {
         int type;
         Object result = new Object();
         if(null != cell){
@@ -149,4 +145,5 @@ public class GEOController extends BaseController implements IGEOController {
         }
         return result.toString();
     }
+
 }

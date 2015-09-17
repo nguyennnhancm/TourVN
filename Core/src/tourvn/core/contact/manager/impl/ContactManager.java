@@ -44,4 +44,19 @@ public class ContactManager extends BaseManager implements IContactManager {
     public PartyContactMechPurpose savePartyContactMechPurpose(PartyContactMechPurpose partyContactMechPurpose) {
         return getEntityManager().merge(partyContactMechPurpose);
     }
+
+    @Override
+    public ContactMech getContactmech(String contacmechId) {
+        return getEntityManager().find(ContactMech.class, contacmechId);
+    }
+
+    @Override
+    public TelecomNumber getTeleComNumber(String contactmechId) {
+        return getEntityManager().find(TelecomNumber.class, contactmechId);
+    }
+
+    @Override
+    public PostalAddress getPostalAddress(String contactmechId) {
+        return getEntityManager().find(PostalAddress.class, contactmechId);
+    }
 }

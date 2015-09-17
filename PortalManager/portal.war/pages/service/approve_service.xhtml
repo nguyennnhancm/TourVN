@@ -1,12 +1,416 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title></title>
-</head>
-<body>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                template="/templates/template.xhtml">
 
-</body>
-</html>
+<ui:define name="title">Duyệt dịch vụ</ui:define>
+<ui:define name="content">
+<div class="row">
+    <div class="col-lg-12">
+        <div style="float: left;">
+            <h4 class="page-header">Duyệt dịch vụ</h4>
+        </div>
+        <div style="float: right;">
+            <h:form id="frmCommand" prependId="false"
+                    >
+                <p:commandButton class="page-header" type="button" value="Tạo mới dịch vụ" onclick="PF('addService').show();"/>
+            </h:form>
+
+
+        </div>
+    </div>
+
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <div class="col-lg-8" style="width: 100%">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i></i> Tìm kiếm
+                <div class="pull-left" style="margin-top: 25px; width: 100%;">
+                    <h:form id="frmSearch" prependId="false">
+                        <p:toolbar id="tbSearch">
+                            <p:toolbarGroup id="tbgSearch" align="left">
+                                <table width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td >
+                                            Tên khách sạn
+                                        </td>
+                                        <td >
+                                            <p:inputText value="#{ManageSupplier.name}" id="txtName">
+                                            </p:inputText>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Giá từ</td>
+                                        <td><p:selectOneMenu id="priceFrom"
+                                                             value="#{ManageSupplier.postalAddress.stateProvinceGeoId}"
+                                                             style="width: 175px;">
+                                            <p:ajax listener="#{ManageSupplier.processValueChange}" update="districtListS" />
+                                            <f:selectItem itemLabel="Chọn giá" itemValue=""/>
+                                            <f:selectItem itemLabel="100.000" itemValue=""/>
+                                            <f:selectItem itemLabel="500.000" itemValue=""/>
+                                            <f:selectItem itemLabel="1.000.000" itemValue=""/>
+                                            <f:selectItem itemLabel="1.500.000" itemValue=""/>
+                                            <f:selectItem itemLabel="2.000.000" itemValue=""/>
+                                            <f:selectItem itemLabel="2.500.000" itemValue=""/>
+
+                                        </p:selectOneMenu>
+                                        </td>
+                                        <td align="right">đến</td>
+                                        <td><p:selectOneMenu id="priceTo" style="width:130px;"
+                                                             value="#{ManageSupplier.postalAddress.countyGeoId}">
+                                            <f:selectItem itemLabel="Chọn giá" itemValue=""/>
+                                            <f:selectItem itemLabel="500.000" itemValue=""/>
+                                            <f:selectItem itemLabel="1.000.000" itemValue=""/>
+                                            <f:selectItem itemLabel="1.500.000" itemValue=""/>
+                                            <f:selectItem itemLabel="2.000.000" itemValue=""/>
+                                            <f:selectItem itemLabel="2.500.000" itemValue=""/>
+                                            <f:selectItem itemLabel="3.000.000" itemValue=""/>
+
+                                        </p:selectOneMenu></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tỉnh/Thành phố:</td>
+                                        <td><p:selectOneMenu id="provinceListS"
+                                                             value="#{ManageSupplier.postalAddress.stateProvinceGeoId}"
+                                                             style="width: 175px;">
+                                            <p:ajax listener="#{ManageSupplier.processValueChange}" update="districtListS" />
+                                            <f:selectItem itemLabel="Chọn Tỉnh/Thành Phố" itemValue=""/>
+                                            <f:selectItems value="#{ManageSupplier.provinceList}" var="province"
+                                                           itemLabel="#{province.geoName}"
+                                                           itemValue="#{province.geoId}"/>
+                                        </p:selectOneMenu>
+                                        </td>
+                                        <td align="right">Quận/Huyện:</td>
+                                        <td><p:selectOneMenu id="districtListS" style="width:130px;"
+                                                             value="#{ManageSupplier.postalAddress.countyGeoId}">
+                                            <f:selectItem itemLabel="Chọn Quận" itemValue=""/>
+                                            <f:selectItems value="#{ManageSupplier.districtList}" var="district"
+                                                           itemLabel="#{district.geoName}"
+                                                           itemValue="#{district.geoId}"/>
+                                        </p:selectOneMenu></td>
+                                    </tr>
+                                    <tr>
+                                        <td >
+                                            Trạng thái
+                                        </td>
+                                        <td >
+                                            <p:selectOneMenu id="somStatus"
+                                                             value="#{ManageSupplier.status}"
+                                                             style="width: 175px;">
+                                                <f:selectItem itemLabel="Tất cả" itemValue=""/>
+                                                <f:selectItem itemValue="E" itemLabel="Đã sửa"/>
+                                                <f:selectItem itemValue="N" itemLabel="Chưa duyệt"/>
+                                                <f:selectItem itemValue="Y" itemLabel="Đã duyệt"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >
+                                            Số người
+                                        </td>
+                                        <td >
+                                            <p:selectOneMenu id="somUser"
+                                                             value="#{ManageSupplier.rating}"
+                                                             style="width: 175px;">
+                                                <f:selectItem itemLabel="Tất cả" itemValue=""/>
+                                                <f:selectItem itemValue="1" itemLabel="1"/>
+                                                <f:selectItem itemValue="2" itemLabel="2"/>
+                                                <f:selectItem itemValue="3" itemLabel="3"/>
+                                                <f:selectItem itemValue="4" itemLabel="4"/>
+                                                <f:selectItem itemValue="5" itemLabel="5"/>
+                                                <f:selectItem itemValue="0" itemLabel=">5"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >
+
+                                        </td>
+                                        <td >
+                                            <p:commandButton value="Tìm kiếm" action="#" id="btnSearchAction"
+                                                             ajax="false"/>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                    </h:form>
+                </div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div></div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel .chat-panel -->
+    </div>
+    <div class="col-lg-8" style="width: 100%">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Danh sách dịch vụ
+                <div class="pull-left" style="margin-top: 25px; width: 100%;">
+                    <h:form id="frmService" prependId="false">
+                        <p:dataTable id="serviceTableList" var="service" value="#{ManageSupplier.supplierList}"
+                                     paginator="true"
+                                     rows="15"
+                                     emptyMessage="Không có dịch vụ nào đươc tìm thấy">
+
+                            <p:column headerText="Mã dịch vụ" sortBy="#{supplier.partyGroup.groupName}">
+                                #{supplier.partyGroup.groupName}
+                            </p:column>
+                            <p:column headerText="Tên khách sạn" sortBy="#{supplier.partyGroup.groupName}">
+                                #{supplier.partyGroup.groupName}
+                            </p:column>
+                            <p:column headerText="Tên phòng" sortBy="#{supplier.partyGroup.groupName}">
+                                #{supplier.partyGroup.groupName}
+                            </p:column>
+                            <p:column headerText="Loại phòng" sortBy="#{supplier.partyGroup.groupName}">
+                                #{supplier.partyGroup.groupName}
+
+                            </p:column>
+                            <p:column headerText="Số giường" sortBy="#{supplier.partyGroup.groupName}">
+                                #{supplier.partyGroup.groupName}
+
+                            </p:column>
+                            <p:column headerText="Số người" sortBy="#{supplier.partyGroup.groupName}">
+                                #{supplier.partyGroup.groupName}
+                            </p:column>
+                            <p:column headerText="Trạng thái" sortBy="#{supplier.partyGroup.groupName}">
+                                #{supplier.partyGroup.groupName}
+
+                            </p:column>
+                            <p:column headerText="Tác vụ">
+                                <h:commandLink value="Sửa"></h:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div></div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel .chat-panel -->
+    </div>
+    <!-- /.col-lg-4 -->
+</div>
+<p:dialog id="dlgAddService" widgetVar="addService" modal="true" position="220,10"
+          header="THÊM MỚI DỊCH VỤ">
+<p:messages id="messages1" showDetail="true" showSummary="false" closable="true" autoUpdate="true"/>
+<p:panel id="pnlAddService">
+<h:form id="frmAddService">
+<p:tabView id="tbvService" effect="fade" activeIndex="#{CreateSupplier.selectedTabIndex}">
+    <p:ajax event="tabChange" listener="#{CreateSupplier.onTabChange}"/>
+    <p:tab id="tabInfoService" tabIndex="0" title="Thông tin phòng">
+        <table>
+            <tr>
+                <td>
+                    Chọn khách sạn
+                </td>
+                <td>
+                    <p:inputText size="30" value="#{CreateSupplier.partyGroup.groupName}" id="txtServiceName">
+                        <p:ajax async="true"/>
+                    </p:inputText>
+                </td>
+                <td align="right">
+                    <p:commandLink value="tìm kiếm"/>
+                </td>
+                <td>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Tên phòng
+                </td>
+                <td>
+                    <p:inputText size="30" value="#{CreateSupplier.primaryPhoneNumber.contactNumber}" id="txtServicePhone"
+                            >
+                        <p:ajax async="true"/>
+                    </p:inputText>
+                </td>
+                <td align="right">
+                    Loại phòng
+                </td>
+                <td>
+                    <p:inputText size="30" value="#{CreateSupplier.otherPhoneNumber.contactNumber}"
+                                 id="txtServicePhoneOther"
+                            >
+                        <p:ajax async="true"/>
+                    </p:inputText>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Giá
+                </td>
+                <td>
+                    <p:inputText size="30" value="#{CreateSupplier.primaryPostalAddress.address1}"
+                                 id="txtServiceAddress"
+                            >
+                        <p:ajax async="true"/>
+                    </p:inputText>
+
+                </td>
+                <td align="right">
+                    Hướng phòng
+                </td>
+                <td>
+                    <p:inputText size="30" value="#{CreateSupplier.otherPhoneNumber.contactNumber}"
+                                 id="txtRoomFace"
+                            >
+                        <p:ajax async="true"/>
+                    </p:inputText>
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    Giường đôi
+                </td>
+                <td >
+                    <p:selectOneMenu id="somBedsTwin"
+                                     value="#{ManageSupplier.status}"
+                                     style="width: 175px;">
+                        <f:selectItem itemValue="0" itemLabel="0"/>
+                        <f:selectItem itemLabel="1" itemValue="1"/>
+                        <f:selectItem itemValue="2" itemLabel="2"/>
+                        <f:selectItem itemValue="3" itemLabel="3"/>
+
+                    </p:selectOneMenu>
+                </td>
+                <td >
+                    Giường đơn
+                </td>
+                <td >
+                    <p:selectOneMenu id="somBedSingle"
+                                     value="#{ManageSupplier.rating}"
+                                     style="width: 175px;">
+                        <f:selectItem itemLabel="0" itemValue="0"/>
+                        <f:selectItem itemValue="1" itemLabel="1"/>
+                        <f:selectItem itemValue="2" itemLabel="2"/>
+                        <f:selectItem itemValue="3" itemLabel="3"/>
+                    </p:selectOneMenu>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Đặc điểm phòng
+                </td>
+                <td colspan="3">
+                <p:panel>
+                    <p:selectManyCheckbox id="grid2" layout="grid" columns="5">
+                        <f:selectItem itemLabel="Máy lạnh" itemValue="1" />
+                        <f:selectItem itemLabel="internet" itemValue="1" />
+                        <f:selectItem itemLabel="tủ lạnh" itemValue="1" />
+                        <f:selectItem itemLabel="ban công" itemValue="1" />
+                        <f:selectItem itemLabel="Điện thoại" itemValue="1" />
+                        <f:selectItem itemLabel="máy sấy tóc" itemValue="1" />
+                        <f:selectItem itemLabel="Két an toàn" itemValue="1" />
+                        <f:selectItem itemLabel="Tivi" itemValue="1" />
+                        <f:selectItem itemLabel="Truyền hình cáp" itemValue="1" />
+                        <f:selectItem itemLabel="Quạt máy" itemValue="1" />
+                        <f:selectItem itemLabel="Bồn tắm" itemValue="1" />
+                        <f:selectItem itemLabel="Vòi hoa sen" itemValue="1" />
+                        <f:selectItem itemLabel="Máy nóng lạnh" itemValue="1" />
+                    </p:selectManyCheckbox>
+                </p:panel>
+                </td>
+            </tr>
+
+
+        </table>
+
+        <table>
+            <tr>
+                <td colspan="2">
+                    <p:toolbar>
+                        <p:toolbarGroup align="left" style="padding-top:6px; padding-left:15px; height:20px">
+                            <h:outputText value="Hình ảnh"/><p:commandLink style="margin-left:5px"
+                                                                            value="(làm mới)"
+                                                                            update="pnlListImage"/>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top; width: 450px">
+                    <h:panelGroup id="pnlListImage">
+                        <div style="max-height: 160px; overflow-y: scroll;">
+                            <img src="http://dulichcantho.vn/imagesUpload/Upload/0001/653746446.jpg"
+                                 style="width: 80px; height: 80px"/>
+                            <img src="http://dulichcantho.vn/imagesUpload/Upload/0001/653746446.jpg"
+                                 style="width: 80px; height: 80px"/>
+                            <img src="http://dulichcantho.vn/imagesUpload/Upload/0001/653746446.jpg"
+                                 style="width: 80px; height: 80px"/>
+                            <img src="http://dulichcantho.vn/imagesUpload/Upload/0001/653746446.jpg"
+                                 style="width: 80px; height: 80px"/>
+                            <img src="http://dulichcantho.vn/imagesUpload/Upload/0001/653746446.jpg"
+                                 style="width: 80px; height: 80px"/>
+                        </div>
+                    </h:panelGroup>
+                </td>
+                <td style="vertical-align: top">
+                    <div style="max-height: 160px;width: 450px; overflow-y: scroll;">
+                        <p:fileUpload id="fUpload" style="border:none"
+                                      fileUploadListener="#{CreateSupplier.handleFileUpload}"
+                                      mode="advanced"
+                                      auto="true"
+                                      sizeLimit="5000000"
+                                      invalidFileMessage="Hình ảnh không hợp lệ"
+                                      invalidSizeMessage="Kích thước ảnh tối đa 5MB"
+                                      multiple="true"
+                                      allowTypes="/(\.|\/)(gif|jpe?g|png|GIF|JPE?G|PNG)$/"/>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </p:tab>
+    <p:tab id="tabInfo" tabIndex="0" title="Dịch vụ mở rộng">
+        <table>
+            <tr>
+                <td>
+                    Xe, điểm tâm sáng, tour trong ngày, .....
+                </td>
+                <td>
+
+                </td>
+                <td align="right">
+
+                </td>
+                <td>
+
+                </td>
+            </tr>
+
+
+
+        </table>
+
+    </p:tab>
+</p:tabView>
+
+<p:panel>
+    <p:commandButton value="Thêm mới" style="width: 120px;" action="#{CreateSupplier.createNewSupplier()}"
+                     id="btnAddService" update=":frmService"/>
+    <p:spacer width="5px"/>
+    <p:commandButton value="Hủy" style="width: 50px;" onclick="PF('addService').hide();"
+                     id="btnCancel"/>
+</p:panel>
+
+</h:form>
+</p:panel>
+</p:dialog>
+</ui:define>
+</ui:composition>

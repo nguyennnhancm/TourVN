@@ -1,0 +1,2 @@
+- Thêm Role_type  ADMIN_SUPPLIER, TOUR_VN_SUPPLIER, TOUR_VN_COMPANY.
+- Thêm type IMAGE cho Party_content_type

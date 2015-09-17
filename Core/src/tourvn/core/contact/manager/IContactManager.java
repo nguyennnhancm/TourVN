@@ -25,4 +25,10 @@ public interface IContactManager {
     public PartyContactMech savePartyContactMech(PartyContactMech partyContactMech);
 
     public PartyContactMechPurpose savePartyContactMechPurpose(PartyContactMechPurpose partyContactMechPurpose);
+
+    public ContactMech getContactmech(String contacmechId);
+
+    public TelecomNumber getTeleComNumber(String contactmechId);
+
+    public PostalAddress getPostalAddress(String contactmechId);
 }

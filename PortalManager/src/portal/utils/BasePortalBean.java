@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  */
 public abstract class BasePortalBean {
     protected String tourVNId = "TourVN";
-    protected String defaultCountryCode = "VNM";
+    protected String defaultCountryCode = "VN";
     private IUserController userController;
     private IGEOController geoController;
     private ISupplierController supplierController;

@@ -65,12 +65,14 @@ public class ContactController extends BaseController implements IContactControl
         partyContactMech.setPartyId(party.getPartyId());
         partyContactMech.setContactMechId(contacmechId);
         partyContactMech.setThruDate(new Timestamp(new Date().getTime()));
+        getContactManager().savePartyContactMech(partyContactMech);
         //save party contactmech purpose
         PartyContactMechPurpose partyContactMechPurpose = new PartyContactMechPurpose();
         partyContactMechPurpose.setContactMechId(contacmechId);
         partyContactMechPurpose.setPartyId(party.getPartyId());
         partyContactMechPurpose.setContactMechPurposeTypeId(TelecomPurpose.PRIMARY.getPurpose());
         partyContactMechPurpose.setThruDate(new Timestamp(new Date().getTime()));
+        getContactManager().savePartyContactMechPurpose(partyContactMechPurpose);
         return telecomNumber;
     }
 
@@ -90,12 +92,14 @@ public class ContactController extends BaseController implements IContactControl
         partyContactMech.setPartyId(party.getPartyId());
         partyContactMech.setContactMechId(contacmechId);
         partyContactMech.setThruDate(new Timestamp(new Date().getTime()));
+        getContactManager().savePartyContactMech(partyContactMech);
         //save party contactmech purpose
         PartyContactMechPurpose partyContactMechPurpose = new PartyContactMechPurpose();
         partyContactMechPurpose.setContactMechId(contacmechId);
         partyContactMechPurpose.setPartyId(party.getPartyId());
         partyContactMechPurpose.setContactMechPurposeTypeId(AddressPurpose.PRIMARY.getPurpose());
         partyContactMechPurpose.setThruDate(new Timestamp(new Date().getTime()));
+        getContactManager().savePartyContactMechPurpose(partyContactMechPurpose);
         return postalAddress;
     }
 
@@ -115,12 +119,14 @@ public class ContactController extends BaseController implements IContactControl
         partyContactMech.setPartyId(party.getPartyId());
         partyContactMech.setContactMechId(contacmechId);
         partyContactMech.setThruDate(new Timestamp(new Date().getTime()));
+        getContactManager().savePartyContactMech(partyContactMech);
         //save party contactmech purpose
         PartyContactMechPurpose partyContactMechPurpose = new PartyContactMechPurpose();
         partyContactMechPurpose.setContactMechId(contacmechId);
         partyContactMechPurpose.setPartyId(party.getPartyId());
         partyContactMechPurpose.setContactMechPurposeTypeId(telecomNumberPurpose);
         partyContactMechPurpose.setThruDate(new Timestamp(new Date().getTime()));
+        getContactManager().savePartyContactMechPurpose(partyContactMechPurpose);
         return telecomNumber;
     }
 }

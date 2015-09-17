@@ -1,9 +1,6 @@
 package tourvn.core.party.manager.impl;
 
-import tourvn.core.party.entities.Party;
-import tourvn.core.party.entities.PartyGroup;
-import tourvn.core.party.entities.PartyRelationship;
-import tourvn.core.party.entities.PartyRole;
+import tourvn.core.party.entities.*;
 import tourvn.core.party.manager.IPartyManager;
 import tourvn.core.utils.manager.BaseManager;
 
@@ -54,6 +51,18 @@ public class PartyManager extends BaseManager implements IPartyManager {
     @Override
     public void save(PartyRelationship partyRelationship) {
          getEntityManager().persist(partyRelationship);
+    }
+
+    @Override
+    public PartyAttribute save(PartyAttribute partyAttribute) {
+        return getEntityManager().merge(partyAttribute);
+    }
+
+    @Override
+    public List<PartyContactMechPurpose> getAllPartyContactmechPurpose(String partyId) {
+        Query query = getEntityManager().createQuery("select pcp from PartyContactMechPurpose pcp where pcp.partyId=:partyId");
+        query.setParameter("partyId", partyId);
+        return query.getResultList();
     }
 
 //    @Override

@@ -3,6 +3,7 @@ package tourvn.core.geo.entities;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -16,7 +17,7 @@ import java.sql.Timestamp;
 @Entity
 @javax.persistence.Table(name = "geo_assoc")
 @javax.persistence.IdClass(GeoAssocPK.class)
-public class GeoAssoc {
+public class GeoAssoc implements Serializable{
     private String geoId;
 
     @Id

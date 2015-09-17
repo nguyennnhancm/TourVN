@@ -1,9 +1,6 @@
 package tourvn.core.party.manager;
 
-import tourvn.core.party.entities.Party;
-import tourvn.core.party.entities.PartyGroup;
-import tourvn.core.party.entities.PartyRelationship;
-import tourvn.core.party.entities.PartyRole;
+import tourvn.core.party.entities.*;
 
 import java.util.List;
 
@@ -28,6 +25,10 @@ public interface IPartyManager {
     public PartyRole save(PartyRole partyRole);
 
     public void save(PartyRelationship partyRelationship);
+
+    public PartyAttribute save(PartyAttribute partyAttribute);
+
+    public List<PartyContactMechPurpose> getAllPartyContactmechPurpose(String partyId);
 
 //    public List<PartyGroup> getAllSupplierByVendor(String partyId);
 }
